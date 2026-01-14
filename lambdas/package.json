@@ -1,0 +1,25 @@
+{
+  "name": "lambdas",
+  "version": "1.0.0",
+  "description": "Lambda functions for DynamoDB operations",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "package": "rm -rf dist-lambda && mkdir -p dist-lambda && cp -r dist dist-lambda/ && cp package*.json dist-lambda/ && cd dist-lambda && npm ci --omit=dev",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
+    "@aws-sdk/util-dynamodb": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.0",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0"
+  }
+}

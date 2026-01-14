@@ -1,0 +1,28 @@
+{
+    "name": "site",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Demo site with Cognito authentication and DynamoDB integration",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^6.28.0",
+        "aws-amplify": "^6.0.0"
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss": "^4.1.18",
+        "@types/react": "^18.3.17",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react": "^4.0.0",
+        "autoprefixer": "^10.4.0",
+        "postcss": "^8.4.0",
+        "tailwindcss": "^4.0.0",
+        "typescript": "^5.7.2",
+        "vite": "^7.3.0"
+    }
+}
