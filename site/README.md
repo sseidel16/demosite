@@ -16,20 +16,12 @@ React/TypeScript/Vite/Tailwind site with AWS Cognito authentication and DynamoDB
    npm install
    ```
 
-2. Create `.env.local` with your AWS configuration:
-   ```env
-   VITE_AWS_REGION=us-east-1
-   VITE_USER_POOL_ID=us-east-1_XXXXXXXXX
-   VITE_USER_POOL_CLIENT_ID=XXXXXXXXXXXXXXXXXXXXXXXXXX
-   VITE_API_ENDPOINT=https://your-domain.com/api
-   ```
-
-3. Run development server:
+2. Run development server:
    ```bash
    npm run dev
    ```
 
-4. Build for production:
+3. Build for production:
    ```bash
    npm run build
    ```

@@ -2,8 +2,6 @@ import { addRecordHandler } from '../src/handlers/add-record';
 import { deleteRecordHandler } from '../src/handlers/delete-record';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-const TABLE_NAME = process.env.TABLE_NAME || 'Database';
-
 describe('Lambda Handlers E2E Tests', () => {
     const testHashKey = `test-${Date.now()}`;
     const testRangeKey = `range-${Date.now()}`;
@@ -50,7 +48,9 @@ describe('Lambda Handlers E2E Tests', () => {
 
         expect(result.statusCode).toBe(400);
         const body = JSON.parse(result.body);
-        expect(body.message).toContain('Missing required fields');
+        expect(body.message).toBe('Validation error');
+        expect(body.errors).toBeDefined();
+        expect(Array.isArray(body.errors)).toBe(true);
     });
 
     test('should delete a record from DynamoDB', async () => {
@@ -84,6 +84,8 @@ describe('Lambda Handlers E2E Tests', () => {
 
         expect(result.statusCode).toBe(400);
         const body = JSON.parse(result.body);
-        expect(body.message).toContain('Missing required fields');
+        expect(body.message).toBe('Validation error');
+        expect(body.errors).toBeDefined();
+        expect(Array.isArray(body.errors)).toBe(true);
     });
 });
