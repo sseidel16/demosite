@@ -10,13 +10,16 @@ export class DbService {
         this.tableName = tableName;
     }
 
-    async putRecord(hashKey: string, rangeKey: string, data?: Record<string, any>) {
-        const item = {
+    async putRecord(hashKey: string, rangeKey: string, data?: string) {
+        const item: Record<string, any> = {
             DemoHashKey: hashKey,
             DemoRangeKey: rangeKey,
-            ...data,
             createdAt: new Date().toISOString(),
         };
+
+        if (data !== undefined) {
+            item.Data = data;
+        }
 
         const command = new PutItemCommand({
             TableName: this.tableName,

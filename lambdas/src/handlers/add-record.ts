@@ -1,6 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DbService } from '../services/db-service';
 import { getCorsHeaders } from '../utils/cors';
+import { AddRecordSchema } from '../schemas/record.schema';
+import { ZodError } from 'zod';
 
 const TABLE_NAME = process.env.TABLE_NAME || 'Database';
 const dbService = new DbService(TABLE_NAME);
@@ -10,17 +12,10 @@ export const addRecordHandler = async (event: APIGatewayProxyEvent): Promise<API
 
     try {
         const body = JSON.parse(event.body || '{}');
-        const { hashKey, rangeKey, data } = body;
-
-        if (!hashKey || !rangeKey) {
-            return {
-                statusCode: 400,
-                headers: getCorsHeaders(origin),
-                body: JSON.stringify({
-                    message: 'Missing required fields: hashKey and rangeKey',
-                }),
-            };
-        }
+        
+        // Validate input with Zod
+        const validatedData = AddRecordSchema.parse(body);
+        const { hashKey, rangeKey, data } = validatedData;
 
         const item = await dbService.putRecord(hashKey, rangeKey, data);
 
@@ -34,6 +29,22 @@ export const addRecordHandler = async (event: APIGatewayProxyEvent): Promise<API
         };
     } catch (error) {
         console.error('Error adding record:', error);
+        
+        // Handle validation errors
+        if (error instanceof ZodError) {
+            return {
+                statusCode: 400,
+                headers: getCorsHeaders(origin),
+                body: JSON.stringify({
+                    message: 'Validation error',
+                    errors: error.errors.map(e => ({
+                        path: e.path.join('.'),
+                        message: e.message,
+                    })),
+                }),
+            };
+        }
+        
         return {
             statusCode: 500,
             headers: getCorsHeaders(origin),
